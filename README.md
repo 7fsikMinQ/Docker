@@ -7,7 +7,7 @@ Docker
  - 단점 : 초기 설정이 복잡합니다.
 
 
-<해당예시는 Rabbitmq 도커 설치 예시이며 ubuntu-22.04.5-live-server-amd64 default설치(Install OpenSSH server) 환경에서 작성되었습니다.> 
+<해당예시는 Rabbitmq 도커 설치 예시이며 ubuntu-22.04.5-live-server-amd64 default설치(Install OpenSSH server) 고정 ip 설정 및 포트설정이 완료된 환경에서 작성되었습니다.> 
 
 1. VM에 Docker 설치 방법
 
