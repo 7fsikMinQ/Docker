@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+chmod +x /usr/local/bin/cluster-entrypoint.sh
 # Change .erlang.cookie permission
 chmod 400 /var/lib/rabbitmq/.erlang.cookie
 
