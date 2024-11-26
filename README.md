@@ -52,3 +52,50 @@ Docker
 		사용자를 도커 그룹 추가
 		usermod -aG docker 사용자이름
 
+	
+2. VM에서 Docker 사용 방법
+
+ 
+
+	2-1. 도커 명령을 통해 사용할 image를 준비한다
+	
+		개발 과정에서 조건에 맞는 특정 custom 도커 images를 만들고 해당 image를 .tar로 저장한다
+		
+		docker save -o [파일명].tar [이미지이름]:[이미지태그]
+		ex : docker save -o rabbitmq.tar rabbitmq:3-management
+			docker save -o haproxy.tar haproxy:1.7
+		
+		-rw------- 1 root root  32569856 11월 25 13:52 haproxy.tar
+		-rw------- 1 root root 115080192 11월 25 13:52 rabbitmq.tar
+
+	2-2. 해당 tar 파일을 사용할 VM서버로 이동시킨 후 이미지를 도커에 로드한다.
+		docker load -i haproxy.tar
+		docker load -i rabbitmq.tar 
+
+		docker images
+		REPOSITORY   TAG            IMAGE ID       CREATED        SIZE
+		rabbitmq     3-management   dab4742eee4e   2 months ago   251MB
+		haproxy      1.7            41ed9a434c27   2 years ago    83MB
+
+	2-4. 필요한 설정을 추가한다
+		sudo vi .env
+		sudo vi .erlang.cookie
+		sudo vi cluster-entrypoint.sh
+		sudo vi haproxy.cfg
+		sudo vi docker-compose.yml
+		
+		drwxr-xr-x 2 root root      4096 11월 25 15:19 .
+		drwxr-xr-x 3 root root      4096 11월 25 13:52 ..
+		-rw-r--r-- 1 root root        79 11월 25 13:55 .env
+		-r-------- 1  999 root         6 11월 25 14:01 .erlang.cookie
+		-rwxr-xr-x 1 root root      1161 11월 25 13:52 cluster-entrypoint.sh
+		-rw-r--r-- 1 root root      2129 11월 25 15:17 docker-compose.yml
+		-rw-r--r-- 1 root root      1242 11월 25 15:19 haproxy.cfg
+		-rw------- 1 root root  32569856 11월 25 13:52 haproxy.tar
+		-rw------- 1 root root 115080192 11월 25 13:52 rabbitmq.tar
+
+	2-5. 도커 명령어로 컨테이너를 실행시킨다
+		docker compose up -d
+		docker ps
+
+
