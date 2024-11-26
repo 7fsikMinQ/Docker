@@ -77,7 +77,7 @@ Docker
 		rabbitmq     3-management   dab4742eee4e   2 months ago   251MB
 		haproxy      1.7            41ed9a434c27   2 years ago    83MB
 
-	2-4. 필요한 설정을 추가한다
+	2-3. 필요한 설정을 추가한다
 		sudo vi .env
 		sudo vi .erlang.cookie
 		sudo vi cluster-entrypoint.sh
@@ -94,7 +94,7 @@ Docker
 		-rw------- 1 root root  32569856 11월 25 13:52 haproxy.tar
 		-rw------- 1 root root 115080192 11월 25 13:52 rabbitmq.tar
 
-	2-5. 도커 명령어로 컨테이너를 실행시킨다
+	2-4. 도커 명령어로 컨테이너를 실행시킨다
 		docker compose up -d
 		docker ps
 
