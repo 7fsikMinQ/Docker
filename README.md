@@ -15,7 +15,7 @@ Docker
 
 		Docker
 		https://download.docker.com/linux/ubuntu/dists/jammy/pool/stable/amd64/
-
+		or https://github.com/7fsikMinQ/Docker_
 		위 링크에서 아래 deb 파일 다운받는다 
 		containerd.io_1.7.23-1_amd64
 		docker-buildx-plugin_0.17.1-1~ubuntu.22.04~jammy_amd64
