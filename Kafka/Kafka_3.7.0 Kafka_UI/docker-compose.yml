@@ -1,25 +1,26 @@
 version: "3.5"
 
 networks:
-  shared_network:
+  kafka_network:
     name: kafka_network
     driver: bridge
 
 volumes:
   kafka_data0:
-    driver: local
+    name: kafka_data0
   kafka_data1:
-    driver: local
+    name: kafka_data1
   kafka_data2:
-    driver: local
+    name: kafka_data2
 
 services:
   kafka0:
     image: bitnami/kafka:3.7.0
+    hostname: kafka0
     restart: unless-stopped
-    container_name: kafka0
+    container_name: kafka0_v3.7
     ports:
-      - '10000:9094'
+      - 10000:9094
     environment:
       # KRaft settings
       - KAFKA_CFG_BROKER_ID=0
@@ -41,16 +42,17 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=2
     volumes:
-      - "kafka_data0:/bitnami/kafka"
+      - kafka_data0:/bitnami/kafka
     networks:
-      - shared_network
+      - kafka_network
 
   kafka1:
     image: bitnami/kafka:3.7.0
+    hostname: kafka1
     restart: unless-stopped
-    container_name: kafka1
+    container_name: kafka1_v3.7
     ports:
-      - '10001:9094'
+      - 10001:9094
     environment:
       # KRaft settings
       - KAFKA_CFG_BROKER_ID=1
@@ -72,16 +74,17 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=2
     volumes:
-      - "kafka_data1:/bitnami/kafka"
+      - kafka_data1:/bitnami/kafka
     networks:
-      - shared_network
+      - kafka_network
 
   kafka2:
     image: bitnami/kafka:3.7.0
+    hostname: kafka2
     restart: unless-stopped
-    container_name: kafka2
+    container_name: kafka2_v3.7
     ports:
-      - '10002:9094'
+      - 10002:9094
     environment:
       # KRaft settings
       - KAFKA_CFG_BROKER_ID=2
@@ -103,24 +106,27 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=2
     volumes:
-      - "kafka_data2:/bitnami/kafka"
+      - kafka_data2:/bitnami/kafka
     networks:
-      - shared_network
+      - kafka_network
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     restart: unless-stopped
     container_name: kafka-ui
     ports:
-      - '8089:8080'
+      - 8089:8080
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka0:9092,kafka1:9092,kafka2:9092
       - DYNAMIC_CONFIG_ENABLED=true
       - KAFKA_CLUSTERS_0_AUDIT_TOPICAUDITENABLED=true
       - KAFKA_CLUSTERS_0_AUDIT_CONSOLEAUDITENABLED=true
+      - KAFKA_UI_AUTH_ENABLED=true
+      - KAFKA_UI_USER=mk
+      - KAFKA_UI_PASSWORD=1234
     networks:
-      - shared_network
+      - kafka_network
     depends_on:
       - kafka0
       - kafka1
