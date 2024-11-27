@@ -45,7 +45,8 @@ services:
     volumes:
       - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
-      - rabbitmq3-data:/var/lib/rabbitmq/ - rabbitmq3-logs:/var/log/rabbitmq
+      - rabbitmq3-data:/var/lib/rabbitmq/ 
+      - rabbitmq3-logs:/var/log/rabbitmq
     entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
     networks:
       - rabbitmq
