@@ -95,8 +95,8 @@
 		-rw------- 1 root root  32569856 11월 25 13:52 haproxy.tar
 		-rw------- 1 root root 115080192 11월 25 13:52 rabbitmq.tar
 
-	2-4. 도커 명령어로 컨테이너를 실행시킨다</br>
-		docker compose -p [name] up -d
+	2-4. 도커 명령어로 컨테이너를 실행시킨다
+		docker compose -p [컨테이너 이름 작명] up -d
 		docker ps</br></br>
 
 
