@@ -12,7 +12,7 @@ services:
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq1-data:/var/lib/rabbitmq/
       - rabbitmq1-logs:/var/log/rabbitmq
-    entrypoint: ["sh", "-c", "chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
     networks:
       - rabbitmq
 
@@ -28,7 +28,7 @@ services:
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq2-data:/var/lib/rabbitmq/
       - rabbitmq2-logs:/var/log/rabbitmq
-    entrypoint: ["sh", "-c", "chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
     networks:
       - rabbitmq
 
@@ -44,7 +44,7 @@ services:
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq3-data:/var/lib/rabbitmq/
       - rabbitmq3-logs:/var/log/rabbitmq
-    entrypoint: ["sh", "-c", "chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
     networks:
       - rabbitmq
 
@@ -59,6 +59,7 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+      - 1936:1936
     networks:
       - rabbitmq
 
