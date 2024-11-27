@@ -4,6 +4,7 @@ services:
     image: rabbitmq:3-management
     hostname: rabbitmq1
     container_name: rabbitmq1
+    restart: unless-stopped
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
@@ -21,6 +22,7 @@ services:
     image: rabbitmq:3-management
     hostname: rabbitmq2
     container_name: rabbitmq2
+    restart: unless-stopped
     depends_on:
       - rabbitmq1
     environment:
@@ -38,6 +40,7 @@ services:
     image: rabbitmq:3-management
     hostname: rabbitmq3
     container_name: rabbitmq3
+    restart: unless-stopped
     depends_on:
       - rabbitmq1
     environment:
@@ -54,6 +57,7 @@ services:
   haproxy:
     image: haproxy:1.7
     container_name: haproxy1.7
+    restart: unless-stopped
     volumes:
       - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
@@ -75,13 +79,19 @@ networks:
 volumes:
   rabbitmq1-data:
     name: rabbitmq1-data
+    external: true
   rabbitmq2-data:
     name: rabbitmq2-data
+    external: true
   rabbitmq3-data:
     name: rabbitmq3-data
+    external: true
   rabbitmq1-logs:
     name: rabbitmq1-logs
+    external: true
   rabbitmq2-logs:
     name: rabbitmq2-logs
+    external: true
   rabbitmq3-logs:
     name: rabbitmq3-logs
+    external: true
