@@ -1,4 +1,4 @@
 Kafka/Kafka_3.7.0[[:space:]]Kafka_UI/bitnami_kafka_3.7.0.tar filter=lfs diff=lfs merge=lfs -text
 Kafka/Kafka_3.7.0[[:space:]]Kafka_UI/provectuslabs_kafka-ui.tar filter=lfs diff=lfs merge=lfs -text
 *.tar filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
+
