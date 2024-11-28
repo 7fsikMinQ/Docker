@@ -8,13 +8,13 @@ networks:
 volumes:
   kafka_data0:
     name: kafka_data0
-    external: true
+    # external: true
   kafka_data1:
     name: kafka_data1
-    external: true
+    # external: true
   kafka_data2:
     name: kafka_data2
-    external: true
+    # external: true
 
 services:
   kafka0:
