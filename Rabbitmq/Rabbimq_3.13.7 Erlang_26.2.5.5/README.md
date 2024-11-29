@@ -1,3 +1,65 @@
-rabbitmq 와 haproxy를 사용 도커로 3개의 클러스터된 rabbitmq 설치 
+위 Docker Compose 설정에서 **RabbitMQ** 클러스터와 **HAProxy**를 사용하는 경우, 각 서비스가 원활히 동작하려면 다음 포트들을 열어야 합니다.
 
-설정은 추후 변경 요망
+---
+
+### **RabbitMQ 포트**
+RabbitMQ는 클러스터링, 관리, 및 메시징 통신을 위해 여러 포트를 사용합니다. 설정에 따라 RabbitMQ의 **management 플러그인**과 클러스터 노드 간의 통신도 필요한데, 다음과 같은 포트를 열어야 합니다:
+
+| **포트** | **서비스**                          | **목적**                                |
+|----------|-------------------------------------|-----------------------------------------|
+| **5672** | RabbitMQ (AMQP)                    | 기본 메시징 프로토콜 (외부 클라이언트 연결) |
+| **15672**| RabbitMQ Management UI             | 웹 관리 콘솔                            |
+| **25672**| RabbitMQ 클러스터 통신              | 노드 간의 내부 통신 (클러스터링)        |
+| **4369** | RabbitMQ 및 Erlang Port Mapper      | 노드 검색 및 통신 초기화                |
+
+---
+
+### **HAProxy 포트**
+HAProxy는 RabbitMQ 노드들에 대한 부하 분산 역할을 합니다. 설정에서 사용되는 포트를 열어야 합니다.
+
+| **포트** | **서비스**                          | **목적**                                |
+|----------|-------------------------------------|-----------------------------------------|
+| **5672** | HAProxy (AMQP)                     | 메시징 클라이언트 요청 라우팅           |
+| **15672**| HAProxy (Management)               | 관리 UI 트래픽 라우팅                   |
+| **1936** | HAProxy Stats                      | HAProxy 상태 및 통계 웹 페이지          |
+
+---
+
+### **클러스터 포트 요약**
+#### **외부에서 접근해야 하는 포트**
+- **5672**: AMQP 메시징 통신 (RabbitMQ 및 HAProxy)
+- **15672**: RabbitMQ 및 HAProxy Management UI
+- **1936**: HAProxy 상태 확인 페이지 (선택적)
+
+#### **내부 클러스터 통신을 위한 포트**
+- **25672**: RabbitMQ 노드 간 클러스터 통신
+- **4369**: RabbitMQ 및 Erlang Port Mapper
+
+---
+
+### **포트 열기 명령어 (UFW 기준)**
+
+```bash
+sudo ufw allow 5672/tcp  # AMQP 메시징 포트
+sudo ufw allow 15672/tcp # RabbitMQ 및 HAProxy 관리 UI
+sudo ufw allow 1936/tcp  # HAProxy 상태 페이지 (선택적)
+sudo ufw allow 25672/tcp # RabbitMQ 클러스터 내부 통신
+sudo ufw allow 4369/tcp  # Erlang Port Mapper
+sudo ufw reload
+```
+
+---
+
+### **테스트**
+1. **AMQP 연결 확인**
+   ```bash
+   telnet 192.168.27.106 5672
+   ```
+
+2. **관리 UI 접속 확인**
+   - 브라우저에서 `http://192.168.27.106:15672` 접속.
+
+3. **HAProxy 상태 확인**
+   - 브라우저에서 `http://192.168.27.106:1936` 접속.
+
+RabbitMQ 클러스터 및 HAProxy가 정상적으로 작동하려면 위 포트들이 모두 열려 있어야 합니다.
