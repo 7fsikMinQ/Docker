@@ -34,7 +34,7 @@ HAProxy는 RabbitMQ 노드들에 대한 부하 분산 역할을 합니다. 설�
 #### **내부 클러스터 통신을 위한 포트**
 - **25672**: RabbitMQ 노드 간 클러스터 통신
 - **4369**: RabbitMQ 및 Erlang Port Mapper
-
+//도커 네트워크로 될거다
 ---
 
 ### **포트 열기 명령어 (UFW 기준)**
@@ -43,8 +43,7 @@ HAProxy는 RabbitMQ 노드들에 대한 부하 분산 역할을 합니다. 설�
 sudo ufw allow 5672/tcp  # AMQP 메시징 포트
 sudo ufw allow 15672/tcp # RabbitMQ 및 HAProxy 관리 UI
 sudo ufw allow 1936/tcp  # HAProxy 상태 페이지 (선택적)
-sudo ufw allow 25672/tcp # RabbitMQ 클러스터 내부 통신
-sudo ufw allow 4369/tcp  # Erlang Port Mapper
+
 sudo ufw reload
 ```
 
