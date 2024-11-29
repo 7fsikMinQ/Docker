@@ -79,19 +79,19 @@ networks:
 volumes:
   rabbitmq1-data:
     name: rabbitmq1-data_v4
-    external: true
+    # external: true
   rabbitmq2-data:
     name: rabbitmq2-data_v4
-    external: true
+    # external: true
   rabbitmq3-data:
     name: rabbitmq3-data_v4
-    external: true
+    # external: true
   rabbitmq1-logs:
     name: rabbitmq1-logs_v4
-    external: true
+    # external: true
   rabbitmq2-logs:
     name: rabbitmq2-logs_v4
-    external: true
+    # external: true
   rabbitmq3-logs:
     name: rabbitmq3-logs_v4
-    external: true
+    # external: true
