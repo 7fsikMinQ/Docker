@@ -1,3 +1,5 @@
+<h1>해당 Dockerfile 로 이미지 생성 이후 geoserver_2.26.tar로 추출한 것 custom image를 사용한다</h1>
+
 GeoServer가 실행되는 Docker 컨테이너가 외부에서 접근할 수 있도록 하려면, **방화벽에서 해당 포트(8085)** 를 열어야 합니다. 그렇지 않으면 외부에서 GeoServer에 접근할 수 없습니다.
 
 ### 필요할 경우 열어야 하는 포트:
