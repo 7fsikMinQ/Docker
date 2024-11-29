@@ -57,6 +57,7 @@ services:
   haproxy:
     image: haproxy:1.7
     container_name: haproxy1.7
+    hostname: haproxy
     restart: unless-stopped
     volumes:
       - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
