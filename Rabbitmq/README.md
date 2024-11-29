@@ -13,6 +13,7 @@ rabbitmq3 </br>
 cluster-entrypoint.sh </br>
 권한 설정 및 rabbitmq-server 실행 </br>
 join_cluster 설정</br>
+docker compose up 에서 문제 발생시 해당 파일 직접 작성 필요
 </br></br>
 haproxy.cfg</br>
 로드밸런싱 정보</br>
