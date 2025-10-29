@@ -1,0 +1,13 @@
+services:
+  oracle21c:
+    image: gvenzl/oracle-xe:latest
+    container_name: oracle21c
+    restart: always
+    ports:
+      - 11521:1521
+      - 15500:5500
+    environment:
+      ORACLE_PASSWORD: mk
+      TZ: Asia/Seoul
+    volumes:
+      - ./db/oracle/data:/opt/oracle/oradata
