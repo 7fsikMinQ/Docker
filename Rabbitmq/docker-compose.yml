@@ -9,7 +9,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
     volumes:
-      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
       - rabbitmq1-data:/var/lib/rabbitmq
       - rabbitmq1-logs:/var/log/rabbitmq
@@ -28,7 +28,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
     volumes:
-      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
       - rabbitmq2-data:/var/lib/rabbitmq
       - rabbitmq2-logs:/var/log/rabbitmq
@@ -47,7 +47,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
     volumes:
-      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
       - rabbitmq3-data:/var/lib/rabbitmq
       - rabbitmq3-logs:/var/log/rabbitmq
@@ -83,3 +83,4 @@ volumes:
   rabbitmq1-logs: { name: rabbitmq1-logs }
   rabbitmq2-logs: { name: rabbitmq2-logs }
   rabbitmq3-logs: { name: rabbitmq3-logs }
+
