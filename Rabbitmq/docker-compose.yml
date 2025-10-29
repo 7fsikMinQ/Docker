@@ -1,0 +1,85 @@
+services:
+  rabbitmq1:
+    image: rabbitmq:4.2.0-management
+    hostname: rabbitmq1
+    container_name: rabbitmq1
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
+    volumes:
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
+      - rabbitmq1-data:/var/lib/rabbitmq
+      - rabbitmq1-logs:/var/log/rabbitmq
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    networks: [rabbitmq]
+
+  rabbitmq2:
+    image: rabbitmq:4.2.0-management
+    hostname: rabbitmq2
+    container_name: rabbitmq2
+    restart: unless-stopped
+    depends_on: [rabbitmq1]
+    environment:
+      - JOIN_CLUSTER_HOST=rabbitmq1
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
+    volumes:
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
+      - rabbitmq2-data:/var/lib/rabbitmq
+      - rabbitmq2-logs:/var/log/rabbitmq
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    networks: [rabbitmq]
+
+  rabbitmq3:
+    image: rabbitmq:4.2.0-management
+    hostname: rabbitmq3
+    container_name: rabbitmq3
+    restart: unless-stopped
+    depends_on: [rabbitmq1]
+    environment:
+      - JOIN_CLUSTER_HOST=rabbitmq1
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-guest}
+      - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST:-/}
+    volumes:
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh:ro
+      - rabbitmq3-data:/var/lib/rabbitmq
+      - rabbitmq3-logs:/var/log/rabbitmq
+    entrypoint: ["sh", "-c", "chmod 600 /var/lib/rabbitmq/.erlang.cookie && chmod +x /usr/local/bin/cluster-entrypoint.sh && /usr/local/bin/cluster-entrypoint.sh"]
+    networks: [rabbitmq]
+
+  haproxy:
+    image: haproxy:latest
+    hostname: haproxy
+    container_name: haproxy
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq1
+      - rabbitmq2
+      - rabbitmq3
+    ports:
+      - "15672:15672"   # RabbitMQ Management (HTTP)
+      - "5672:5672"     # AMQP
+      - "1936:1936"     # HAProxy Stats
+    volumes:
+      - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks: [rabbitmq]
+
+networks:
+  rabbitmq:
+    name: rabbitmq
+    driver: bridge
+
+volumes:
+  rabbitmq1-data: { name: rabbitmq1-data }
+  rabbitmq2-data: { name: rabbitmq2-data }
+  rabbitmq3-data: { name: rabbitmq3-data }
+  rabbitmq1-logs: { name: rabbitmq1-logs }
+  rabbitmq2-logs: { name: rabbitmq2-logs }
+  rabbitmq3-logs: { name: rabbitmq3-logs }
