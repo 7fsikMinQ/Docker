@@ -1,7 +1,6 @@
 #!/bin/sh
-set -euo pipefail
+set -eu
 
-chmod +x /usr/local/bin/cluster-entrypoint.sh
 # 권한: 컨테이너 내부에서 600이 가장 호환 좋음
 chmod 600 /var/lib/rabbitmq/.erlang.cookie || true
 
@@ -60,4 +59,3 @@ else
   # 컨테이너 유지: 로그 tail
   exec tail -F /var/log/rabbitmq/*.log
 fi
-
