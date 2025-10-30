@@ -140,14 +140,15 @@ services:
       - DYNAMIC_CONFIG_ENABLED=true
       - KAFKA_CLUSTERS_0_AUDIT_TOPICAUDITENABLED=true
       - KAFKA_CLUSTERS_0_AUDIT_CONSOLEAUDITENABLED=true
-      - KAFKA_UI_AUTH_ENABLED=true
-      - KAFKA_UI_USER=mk
-      - KAFKA_UI_PASSWORD=1234
+      # 🔐 UI 인증 (기존 KAFKA_UI_AUTH_* 제거)
+      - AUTH_TYPE=LOGIN_FORM
+      - SPRING_SECURITY_USER_NAME=mk
+      - SPRING_SECURITY_USER_PASSWORD=1234
     networks:
       - kafka_network
-    # kafka-ui 컨테이너에는 Bitnami 스크립트가 없으므로 HTTP 헬스 체크 사용
+    # ✅ UI 자체 헬스체크로 교체
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
+      test: ["CMD", "sh", "-lc", "wget -qO- http://localhost:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
       interval: 10s
       timeout: 5s
       retries: 12
