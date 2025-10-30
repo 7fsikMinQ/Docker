@@ -126,7 +126,15 @@ services:
       - KAFKA_UI_PASSWORD=1234
     networks:
       - kafka_network
+      # 각 kafkaN
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/bitnami/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    # kafka-ui
     depends_on:
-      - kafka0
-      - kafka1
-      - kafka2
+      kafka0: { condition: service_healthy }
+      kafka1: { condition: service_healthy }
+      kafka2: { condition: service_healthy }
